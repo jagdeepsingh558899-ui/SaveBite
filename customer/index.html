@@ -1,0 +1,4142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+
+  <meta
+    name="description"
+    content="SaveBite — discover surplus food from local shops at better prices and help reduce food waste."
+  >
+
+  <meta name="theme-color" content="#080b09">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="black-translucent"
+  >
+  <meta
+    name="apple-mobile-web-app-title"
+    content="SaveBite"
+  >
+  <meta name="format-detection" content="telephone=no">
+
+  <title>SaveBite — Discover Deals Near You</title>
+
+  <link rel="manifest" href="../manifest.json">
+  <link rel="icon" href="../assets/icons/icon-192.png">
+  <link
+    rel="apple-touch-icon"
+    href="../assets/icons/icon-192.png"
+  >
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/components.css">
+
+  <style>
+    :root {
+      --sb-bg: #080b09;
+      --sb-surface: #101512;
+      --sb-surface-2: #151b17;
+      --sb-border: rgba(255,255,255,.08);
+      --sb-green: #38d878;
+      --sb-green-dark: #1ca85a;
+      --sb-green-soft: rgba(56,216,120,.11);
+      --sb-white: #fff;
+      --sb-text: #f4f7f5;
+      --sb-muted: #9ca7a0;
+      --sb-danger: #ff5c67;
+      --sb-yellow: #ffd84d;
+      --sb-radius-sm: 12px;
+      --sb-radius-md: 18px;
+      --sb-radius-lg: 24px;
+      --sb-shadow: 0 20px 60px rgba(0,0,0,.28);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-width: 320px;
+      background: var(--sb-bg);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      min-height: 100vh;
+      background:
+        radial-gradient(
+          circle at 50% -15%,
+          rgba(56,216,120,.11),
+          transparent 38%
+        ),
+        var(--sb-bg);
+      color: var(--sb-text);
+      font-family: "DM Sans", system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .sb-page {
+      width: min(100%, 1240px);
+      margin: 0 auto;
+      padding-bottom: 100px;
+    }
+
+    .sb-container {
+      width: min(calc(100% - 28px), 1160px);
+      margin: 0 auto;
+    }
+
+    .sb-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid var(--sb-border);
+      background: rgba(8,11,9,.86);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .sb-header-inner {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .sb-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .sb-brand-mark {
+      width: 40px;
+      height: 40px;
+      flex: 0 0 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      background:
+        linear-gradient(
+          145deg,
+          var(--sb-green),
+          var(--sb-green-dark)
+        );
+      color: #04130a;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-weight: 800;
+      font-size: 19px;
+      box-shadow: 0 10px 28px rgba(56,216,120,.16);
+    }
+
+    .sb-brand-name {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 19px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .sb-brand-name span {
+      color: var(--sb-green);
+    }
+
+    .sb-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .sb-icon-btn {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--sb-border);
+      border-radius: 12px;
+      background: var(--sb-surface);
+      color: var(--sb-white);
+      position: relative;
+    }
+
+    .sb-icon-btn svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    .sb-badge {
+      position: absolute;
+      top: -4px;
+      right: -3px;
+      min-width: 17px;
+      height: 17px;
+      padding: 0 4px;
+      display: none;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--sb-green);
+      color: #031108;
+      font-size: 9px;
+      font-weight: 800;
+    }
+
+    .sb-location {
+      padding: 18px 0 8px;
+    }
+
+    .sb-location-button {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 12px 14px;
+      border: 1px solid var(--sb-border);
+      border-radius: 15px;
+      background: var(--sb-surface);
+      color: var(--sb-text);
+      text-align: left;
+    }
+
+    .sb-location-icon {
+      width: 34px;
+      height: 34px;
+      flex: 0 0 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--sb-green-soft);
+      color: var(--sb-green);
+    }
+
+    .sb-location-icon svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    .sb-location-copy {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .sb-location-label {
+      color: var(--sb-muted);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .7px;
+    }
+
+    .sb-location-value {
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .sb-search-wrap {
+      padding: 10px 0 5px;
+    }
+
+    .sb-search {
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 15px;
+      border: 1px solid var(--sb-border);
+      border-radius: 16px;
+      background: var(--sb-surface);
+      box-shadow: var(--sb-shadow);
+    }
+
+    .sb-search svg {
+      width: 19px;
+      height: 19px;
+      flex: 0 0 auto;
+      color: var(--sb-muted);
+    }
+
+    .sb-search input {
+      width: 100%;
+      min-width: 0;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--sb-white);
+      font-size: 14px;
+    }
+
+    .sb-search input::placeholder {
+      color: #6f7973;
+    }
+
+    .sb-search-clear {
+      display: none;
+      width: 30px;
+      height: 30px;
+      flex: 0 0 30px;
+      place-items: center;
+      border: 0;
+      border-radius: 9px;
+      background: var(--sb-surface-2);
+      color: var(--sb-muted);
+    }
+
+    .sb-search-clear.is-visible {
+      display: grid;
+    }
+
+    .sb-categories {
+      padding: 13px 0 7px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .sb-categories::-webkit-scrollbar {
+      display: none;
+    }
+
+    .sb-category-list {
+      display: flex;
+      gap: 8px;
+      width: max-content;
+    }
+
+    .sb-category {
+      min-height: 38px;
+      padding: 0 13px;
+      border: 1px solid var(--sb-border);
+      border-radius: 999px;
+      background: var(--sb-surface);
+      color: var(--sb-muted);
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .sb-category.is-active {
+      border-color: rgba(56,216,120,.35);
+      background: var(--sb-green);
+      color: #031108;
+    }
+
+    .sb-hero {
+      margin-top: 17px;
+      padding: 24px 20px;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(56,216,120,.16);
+      border-radius: var(--sb-radius-lg);
+      background:
+        radial-gradient(
+          circle at 100% 0%,
+          rgba(56,216,120,.19),
+          transparent 45%
+        ),
+        linear-gradient(145deg,#111914,#0d120f);
+    }
+
+    .sb-hero::after {
+      content: "SAVE";
+      position: absolute;
+      right: -10px;
+      bottom: -25px;
+      color: rgba(56,216,120,.055);
+      font-family: "Plus Jakarta Sans",sans-serif;
+      font-size: 92px;
+      font-weight: 800;
+      pointer-events: none;
+    }
+
+    .sb-hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 650px;
+    }
+
+    .sb-hero-kicker {
+      color: var(--sb-green);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+    }
+
+    .sb-hero h1 {
+      margin: 9px 0 0;
+      font-family: "Plus Jakarta Sans",sans-serif;
+      font-size: clamp(28px,8vw,50px);
+      line-height: 1.06;
+      letter-spacing: -1.8px;
+    }
+
+    .sb-hero h1 span {
+      color: var(--sb-green);
+    }
+
+    .sb-hero p {
+      max-width: 560px;
+      margin: 12px 0 0;
+      color: var(--sb-muted);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .sb-hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .sb-primary-btn,
+    .sb-secondary-btn {
+      min-height: 43px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 0 14px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .sb-primary-btn {
+      border: 0;
+      background: var(--sb-green);
+      color: #031108;
+    }
+
+    .sb-secondary-btn {
+      border: 1px solid var(--sb-border);
+      background: var(--sb-surface);
+      color: var(--sb-white);
+    }
+
+    .sb-section {
+      padding: 28px 0 0;
+    }
+
+    .sb-section-heading {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 14px;
+    }
+
+    .sb-section-heading h2 {
+      margin: 0;
+      font-family: "Plus Jakarta Sans",sans-serif;
+      font-size: 21px;
+      letter-spacing: -.7px;
+    }
+
+    .sb-section-subtitle {
+      margin: 4px 0 0;
+      color: var(--sb-muted);
+      font-size: 11px;
+    }
+
+    .sb-link-btn {
+      border: 0;
+      background: transparent;
+      color: var(--sb-green);
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .sb-shop-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .sb-shop-card {
+      overflow: hidden;
+      border: 1px solid var(--sb-border);
+      border-radius: 18px;
+      background: var(--sb-surface);
+      transition:
+        transform .18s ease,
+        border-color .18s ease;
+    }
+
+    .sb-shop-card:active {
+      transform: scale(.99);
+    }
+
+    .sb-shop-image {
+      position: relative;
+      min-height: 145px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background:
+        linear-gradient(135deg,#1b2820,#101512);
+    }
+
+    .sb-shop-image img {
+      width: 100%;
+      height: 100%;
+      min-height: 145px;
+      object-fit: cover;
+    }
+
+    .sb-shop-placeholder {
+      color: rgba(255,255,255,.18);
+      font-family: "Plus Jakarta Sans",sans-serif;
+      font-size: 27px;
+      font-weight: 800;
+    }
+
+    .sb-shop-status {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      padding: 6px 8px;
+      border-radius: 8px;
+      background: rgba(8,11,9,.84);
+      backdrop-filter: blur(8px);
+      color: var(--sb-green);
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .sb-shop-status.closed {
+      color: var(--sb-danger);
+    }
+
+    .sb-shop-discount {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 6px 8px;
+      border-radius: 8px;
+      background: var(--sb-green);
+      color: #031108;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .sb-shop-body {
+      padding: 13px;
+    }
+
+    .sb-shop-title-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .sb-shop-name {
+      margin: 0;
+      font-family: "Plus Jakarta Sans",sans-serif;
+      font-size: 15px;
+      line-height: 1.25;
+    }
+
+    .sb-verified {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      margin-top: 3px;
+      color: var(--sb-green);
+      font-size: 9px;
+      font-weight: 700;
+    }
+
+    .sb-rating {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      color: var(--sb-yellow);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .sb-shop-description {
+      margin: 7px 0 0;
+      overflow: hidden;
+      color: var(--sb-muted);
+      font-size: 11px;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .sb-shop-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      color: var(--sb-muted);
+      font-size: 10px;
+    }
+
+    .sb-shop-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .sb-shop-meta svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    .sb-shop-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .sb-surplus {
+      color: var(--sb-green);
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .sb-open-btn {
+      min-height: 34px;
+      padding: 0 11px;
+      border: 0;
+      border-radius: 9px;
+      background: var(--sb-green);
+      color: #031108;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .sb-state {
+      padding: 28px 16px;
+      border: 1px dashed var(--sb-border);
+      border-radius: 16px;
+      background: rgba(16,21,18,.55);
+      text-align: center;
+    }
+
+    .sb-state-icon {
+      width: 42px;
+      height: 42px;
+      margin: 0 auto 10px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      background: var(--sb-green-soft);
+      color: var(--sb-green);
+    }
+
+    .sb-state-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .sb-state-title {
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .sb-state-text {
+      margin: 5px auto 0;
+      max-width: 360px;
+      color: var(--sb-muted);
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .sb-state-action {
+      margin-top: 13px;
+      min-height: 38px;
+      padding: 0 13px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--sb-green);
+      color: #031108;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .sb-loading {
+      min-height: 145px;
+      border-radius: 18px;
+      background:
+        linear-gradient(
+          90deg,
+          #101512 25%,
+          #17201a 37%,
+          #101512 63%
+        );
+      background-size: 400% 100%;
+      animation: sbShimmer 1.3s infinite;
+    }
+
+    @keyframes sbShimmer {
+      0% {
+        background-position: 100% 0;
+      }
+      100% {
+        background-position: -100% 0;
+      }
+    }
+
+    .sb-benefits {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 9px;
+    }
+
+    .sb-benefit {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 13px;
+      border: 1px solid var(--sb-border);
+      border-radius: 15px;
+      background: var(--sb-surface);
+    }
+
+    .sb-benefit-icon {
+      width: 36px;
+      height: 36px;
+      flex: 0 0 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--sb-green-soft);
+      color: var(--sb-green);
+    }
+
+    .sb-benefit-icon svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    .sb-benefit-title {
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .sb-benefit-text {
+      margin-top: 2px;
+      color: var(--sb-muted);
+      font-size: 10px;
+    }
+
+    .sb-install {
+      position: fixed;
+      left: 12px;
+      right: 12px;
+      bottom: calc(12px + env(safe-area-inset-bottom));
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 17px;
+      background: rgba(16,21,18,.97);
+      box-shadow: 0 24px 70px rgba(0,0,0,.55);
+      backdrop-filter: blur(18px);
+    }
+
+    .sb-install.is-visible {
+      display: flex;
+    }
+
+    .sb-install-icon {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--sb-green);
+      color: #031108;
+      font-family: "Plus Jakarta Sans",sans-serif;
+      font-weight: 800;
+    }
+
+    .sb-install-copy {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .sb-install-title {
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .sb-install-text {
+      margin-top: 2px;
+      color: var(--sb-muted);
+      font-size: 9px;
+      line-height: 1.4;
+    }
+
+    .sb-install-actions {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .sb-install-button {
+      min-height: 34px;
+      padding: 0 10px;
+      border: 0;
+      border-radius: 9px;
+      background: var(--sb-green);
+      color: #031108;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .sb-install-dismiss {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--sb-border);
+      border-radius: 9px;
+      background: transparent;
+      color: var(--sb-muted);
+    }
+
+    .sb-bottom-nav {
+      position: fixed;
+      left: 9px;
+      right: 9px;
+      bottom: calc(9px + env(safe-area-inset-bottom));
+      z-index: 1500;
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 4px;
+      padding: 6px;
+      border: 1px solid var(--sb-border);
+      border-radius: 18px;
+      background: rgba(16,21,18,.95);
+      box-shadow: 0 18px 50px rgba(0,0,0,.42);
+      backdrop-filter: blur(18px);
+    }
+
+    .sb-bottom-link {
+      min-height: 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      border: 0;
+      border-radius: 12px;
+      background: transparent;
+      color: var(--sb-muted);
+      font-size: 9px;
+      font-weight: 700;
+    }
+
+    .sb-bottom-link svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .sb-bottom-link.is-active {
+      background: var(--sb-green-soft);
+      color: var(--sb-green);
+    }
+
+    .sb-toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(83px + env(safe-area-inset-bottom));
+      z-index: 3000;
+      width: min(calc(100% - 28px), 420px);
+      padding: 12px 14px;
+      border: 1px solid var(--sb-border);
+      border-radius: 13px;
+      background: #151b17;
+      color: var(--sb-white);
+      box-shadow: 0 18px 50px rgba(0,0,0,.45);
+      font-size: 11px;
+      font-weight: 600;
+      text-align: center;
+      transform: translate(-50%, 20px);
+      opacity: 0;
+      pointer-events: none;
+      transition: .22s ease;
+    }
+
+    .sb-toast.is-visible {
+      opacity: 1;
+      transform: translate(-50%,0);
+    }
+
+    .sb-sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (min-width: 600px) {
+      .sb-container {
+        width: min(calc(100% - 42px), 1160px);
+      }
+
+      .sb-shop-grid {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+      }
+
+      .sb-benefits {
+        grid-template-columns: repeat(3,minmax(0,1fr));
+      }
+
+      .sb-install {
+        left: auto;
+        right: 20px;
+        width: 390px;
+      }
+    }
+
+    @media (min-width: 900px) {
+      .sb-header-inner {
+        min-height: 76px;
+      }
+
+      .sb-shop-grid {
+        grid-template-columns: repeat(3,minmax(0,1fr));
+      }
+
+      .sb-benefits {
+        grid-template-columns: repeat(3,minmax(0,1fr));
+      }
+
+      .sb-bottom-nav {
+        width: min(420px,calc(100% - 24px));
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+      }
+
+      .sb-hero {
+        padding: 38px 34px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <a
+    href="#main-content"
+    class="sb-sr-only"
+  >
+    Skip to content
+  </a>
+
+  <div class="sb-page">
+
+    <!-- HEADER -->
+    <header class="sb-header">
+      <div class="sb-container sb-header-inner">
+
+        <a
+          href="./index.html"
+          class="sb-brand"
+          aria-label="SaveBite home"
+        >
+          <span class="sb-brand-mark">S</span>
+
+          <span class="sb-brand-name">
+            Save<span>Bite</span>
+          </span>
+        </a>
+
+        <div class="sb-header-actions">
+
+          <button
+            type="button"
+            class="sb-icon-btn"
+            id="notificationButton"
+            aria-label="Notifications"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+            >
+              <path
+                d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"
+              />
+              <path d="M10 21h4"/>
+            </svg>
+
+            <span
+              class="sb-badge"
+              id="notificationBadge"
+            >
+              0
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="sb-icon-btn"
+            id="profileButton"
+            aria-label="Account"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="8" r="4"/>
+              <path d="M4 21a8 8 0 0 1 16 0"/>
+            </svg>
+          </button>
+
+        </div>
+      </div>
+    </header>
+
+
+    <main id="main-content">
+
+      <!-- LOCATION -->
+      <section class="sb-location">
+        <div class="sb-container">
+
+          <button
+            type="button"
+            class="sb-location-button"
+            id="locationButton"
+          >
+
+            <span class="sb-location-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                aria-hidden="true"
+              >
+                <path
+                  d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"
+                />
+                <circle cx="12" cy="10" r="2.5"/>
+              </svg>
+            </span>
+
+            <span class="sb-location-copy">
+
+              <span class="sb-location-label">
+                Your location
+              </span>
+
+              <span
+                class="sb-location-value"
+                id="locationValue"
+              >
+                Detecting location…
+              </span>
+
+            </span>
+
+            <svg
+              width="17"
+              height="17"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+            >
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+
+          </button>
+
+        </div>
+      </section>
+
+
+      <!-- SEARCH -->
+      <section class="sb-search-wrap">
+        <div class="sb-container">
+
+          <label
+            class="sb-search"
+            for="shopSearch"
+          >
+
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+            >
+              <circle cx="11" cy="11" r="7"/>
+              <path d="m20 20-4-4"/>
+            </svg>
+
+            <input
+              id="shopSearch"
+              type="search"
+              inputmode="search"
+              autocomplete="off"
+              placeholder="Search shops, food or categories"
+              aria-label="Search shops, food or categories"
+            >
+
+            <button
+              type="button"
+              class="sb-search-clear"
+              id="searchClear"
+              aria-label="Clear search"
+            >
+              ×
+            </button>
+
+          </label>
+
+        </div>
+      </section>
+
+
+      <!-- CATEGORIES -->
+      <section class="sb-categories">
+        <div class="sb-container">
+
+          <div
+            class="sb-category-list"
+            id="categoryList"
+            role="list"
+          >
+
+            <button
+              type="button"
+              class="sb-category is-active"
+              data-category=""
+            >
+              All
+            </button>
+
+            <button
+              type="button"
+              class="sb-category"
+              data-category="Bakery"
+            >
+              Bakery
+            </button>
+
+            <button
+              type="button"
+              class="sb-category"
+              data-category="Restaurant"
+            >
+              Restaurants
+            </button>
+
+            <button
+              type="button"
+              class="sb-category"
+              data-category="Cafe"
+            >
+              Cafes
+            </button>
+
+            <button
+              type="button"
+              class="sb-category"
+              data-category="Grocery"
+            >
+              Grocery
+            </button>
+
+            <button
+              type="button"
+              class="sb-category"
+              data-category="Sweet Shop"
+            >
+              Sweets
+            </button>
+
+            <button
+              type="button"
+              class="sb-category"
+              data-category="Fast Food"
+            >
+              Fast Food
+            </button>
+
+          </div>
+
+        </div>
+      </section>
+
+
+      <!-- HERO -->
+      <section class="sb-container">
+
+        <div class="sb-hero">
+
+          <div class="sb-hero-content">
+
+            <div class="sb-hero-kicker">
+              Save money. Save food.
+            </div>
+
+            <h1>
+              Great food,
+              <span>better prices.</span>
+            </h1>
+
+            <p>
+              Discover safe surplus food from local shops,
+              bakeries, cafes and restaurants before it goes
+              to waste.
+            </p>
+
+            <div class="sb-hero-actions">
+
+              <button
+                type="button"
+                class="sb-primary-btn"
+                id="nearbyButton"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  aria-hidden="true"
+                >
+                  <path d="M12 2v20M2 12h20"/>
+                </svg>
+                Find nearby deals
+              </button>
+
+              <button
+                type="button"
+                class="sb-secondary-btn"
+                id="browseButton"
+              >
+                Browse shops
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- SHOPS -->
+      <section
+        class="sb-section"
+        id="shopsSection"
+      >
+
+        <div class="sb-container">
+
+          <div class="sb-section-heading">
+
+            <div>
+              <h2>
+                Surplus near you
+              </h2>
+
+              <p class="sb-section-subtitle">
+                Fresh deals from participating local businesses
+              </p>
+            </div>
+
+            <button
+              type="button"
+              class="sb-link-btn"
+              id="refreshButton"
+            >
+              Refresh
+            </button>
+
+          </div>
+
+
+          <div
+            class="sb-shop-grid"
+            id="shopGrid"
+            aria-live="polite"
+          >
+
+            <div class="sb-loading"></div>
+            <div class="sb-loading"></div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- BENEFITS -->
+      <section class="sb-section">
+
+        <div class="sb-container">
+
+          <div class="sb-section-heading">
+
+            <div>
+              <h2>
+                Why SaveBite?
+              </h2>
+
+              <p class="sb-section-subtitle">
+                Better for your pocket and better for the planet.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="sb-benefits">
+
+            <article class="sb-benefit">
+
+              <span class="sb-benefit-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  aria-hidden="true"
+                >
+                  <path d="M12 2v20"/>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7H14.5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+              </span>
+
+              <span>
+                <div class="sb-benefit-title">
+                  Save money
+                </div>
+
+                <div class="sb-benefit-text">
+                  Get good food at reduced prices.
+                </div>
+              </span>
+
+            </article>
+
+
+            <article class="sb-benefit">
+
+              <span class="sb-benefit-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  aria-hidden="true"
+                >
+                  <path d="M12 3v18"/>
+                  <path d="M7 8c0-2.2 2.2-4 5-4s5 1.8 5 4"/>
+                  <path d="M5 12c0 4 3.1 7 7 7s7-3 7-7"/>
+                </svg>
+              </span>
+
+              <span>
+                <div class="sb-benefit-title">
+                  Reduce food waste
+                </div>
+
+                <div class="sb-benefit-text">
+                  Help local businesses recover value.
+                </div>
+              </span>
+
+            </article>
+
+
+            <article class="sb-benefit">
+
+              <span class="sb-benefit-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  aria-hidden="true"
+                >
+                  <path d="M12 3 4 7v5c0 4.5 3.4 7.7 8 9 4.6-1.3 8-4.5 8-9V7l-8-4Z"/>
+                  <path d="m9 12 2 2 4-4"/>
+                </svg>
+              </span>
+
+              <span>
+                <div class="sb-benefit-title">
+                  Shop locally
+                </div>
+
+                <div class="sb-benefit-text">
+                  Discover businesses around you.
+                </div>
+              </span>
+
+            </article>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+
+    <!-- INSTALL -->
+    <aside
+      class="sb-install"
+      id="installBanner"
+      aria-label="Install SaveBite"
+    >
+
+      <div class="sb-install-icon">
+        S
+      </div>
+
+      <div class="sb-install-copy">
+
+        <div class="sb-install-title">
+          Install SaveBite
+        </div>
+
+        <div class="sb-install-text">
+          Add SaveBite to your phone for a faster app-like experience.
+        </div>
+
+      </div>
+
+      <div class="sb-install-actions">
+
+        <button
+          type="button"
+          class="sb-install-button"
+          id="installButton"
+        >
+          Install
+        </button>
+
+        <button
+          type="button"
+          class="sb-install-dismiss"
+          id="installDismiss"
+          aria-label="Dismiss install prompt"
+        >
+          ×
+        </button>
+
+      </div>
+
+    </aside>
+
+
+    <!-- BOTTOM NAV -->
+    <nav
+      class="sb-bottom-nav"
+      aria-label="Customer navigation"
+    >
+
+      <button
+        type="button"
+        class="sb-bottom-link is-active"
+        data-nav="home"
+        id="navHome"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          aria-hidden="true"
+        >
+          <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V10Z"/>
+        </svg>
+        Home
+      </button>
+
+
+      <button
+        type="button"
+        class="sb-bottom-link"
+        data-nav="shops"
+        id="navShops"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          aria-hidden="true"
+        >
+          <path d="M4 10h16"/>
+          <path d="M5 10v9h14v-9"/>
+          <path d="M3 10 5 4h14l2 6"/>
+          <path d="M8 10a2 2 0 0 0 4 0 2 2 0 0 0 4 0"/>
+        </svg>
+        Shops
+      </button>
+
+
+      <button
+        type="button"
+        class="sb-bottom-link"
+        data-nav="orders"
+        id="navOrders"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          aria-hidden="true"
+        >
+          <path d="M6 3h12l2 4v14H4V7l2-4Z"/>
+          <path d="M4 7h16"/>
+          <path d="M9 11h6M9 15h6"/>
+        </svg>
+        Orders
+      </button>
+
+
+      <button
+        type="button"
+        class="sb-bottom-link"
+        data-nav="profile"
+        id="navProfile"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 21a8 8 0 0 1 16 0"/>
+        </svg>
+        Profile
+      </button>
+
+    </nav>
+
+
+    <!-- TOAST -->
+    <div
+      class="sb-toast"
+      id="toast"
+      role="status"
+      aria-live="polite"
+    ></div>
+
+  </div>
+
+
+  <!--
+    SaveBite foundation scripts.
+
+    Config is an ES module, so modules are loaded before
+    the page controller. The customer page itself remains
+    a normal HTML page and does not require a bundler.
+  -->
+
+  <script type="module">
+
+    /*
+     * ---------------------------------------------------------
+     * IMPORTS
+     * ---------------------------------------------------------
+     */
+
+    let SaveBiteConfig = null;
+    let shopsApi = null;
+    let productsApi = null;
+    let locationApi = null;
+
+    try {
+
+      const configModule =
+        await import("../js/config.js");
+
+      SaveBiteConfig =
+        configModule.CONFIG ||
+        configModule.default ||
+        window.SaveBiteConfig ||
+        null;
+
+    } catch (error) {
+
+      console.warn(
+        "SaveBite config module could not be loaded.",
+        error
+      );
+
+    }
+
+
+    /*
+     * The existing discovery engines are regular JS files
+     * and expose their public functions globally where supported.
+     *
+     * Load them dynamically without making the page dependent
+     * on a bundler.
+     */
+
+    async function loadScript(
+      src
+    ) {
+
+      return new Promise(
+        (
+          resolve,
+          reject
+        ) => {
+
+          const existing =
+            document.querySelector(
+              `script[data-sb-src="${src}"]`
+            );
+
+          if (
+            existing
+          ) {
+
+            if (
+              existing.dataset.loaded ===
+              "true"
+            ) {
+
+              resolve();
+              return;
+
+            }
+
+            existing.addEventListener(
+              "load",
+              resolve,
+              {
+                once: true
+              }
+            );
+
+            existing.addEventListener(
+              "error",
+              reject,
+              {
+                once: true
+              }
+            );
+
+            return;
+          }
+
+
+          const script =
+            document.createElement(
+              "script"
+            );
+
+          script.src =
+            src;
+
+          script.async =
+            true;
+
+          script.dataset.sbSrc =
+            src;
+
+          script.addEventListener(
+            "load",
+            () => {
+
+              script.dataset.loaded =
+                "true";
+
+              resolve();
+
+            },
+            {
+              once: true
+            }
+          );
+
+          script.addEventListener(
+            "error",
+            () => {
+
+              reject(
+                new Error(
+                  `Unable to load ${src}`
+                )
+              );
+
+            },
+            {
+              once: true
+            }
+          );
+
+          document.head.appendChild(
+            script
+          );
+
+        }
+      );
+
+    }
+
+
+    /*
+     * ---------------------------------------------------------
+     * PAGE STATE
+     * ---------------------------------------------------------
+     */
+
+    const state = {
+
+      initialized:
+        false,
+
+      loading:
+        false,
+
+      search:
+        "",
+
+      category:
+        "",
+
+      location:
+        null,
+
+      locationLabel:
+        "Choose your location",
+
+      shops:
+        [],
+
+      deferredInstallPrompt:
+        null,
+
+      installDismissed:
+        false,
+
+      toastTimer:
+        null
+
+    };
+
+
+    /*
+     * ---------------------------------------------------------
+     * DOM
+     * ---------------------------------------------------------
+     */
+
+    const dom = {
+
+      locationButton:
+        document.getElementById(
+          "locationButton"
+        ),
+
+      locationValue:
+        document.getElementById(
+          "locationValue"
+        ),
+
+      search:
+        document.getElementById(
+          "shopSearch"
+        ),
+
+      searchClear:
+        document.getElementById(
+          "searchClear"
+        ),
+
+      categoryList:
+        document.getElementById(
+          "categoryList"
+        ),
+
+      shopGrid:
+        document.getElementById(
+          "shopGrid"
+        ),
+
+      refreshButton:
+        document.getElementById(
+          "refreshButton"
+        ),
+
+      nearbyButton:
+        document.getElementById(
+          "nearbyButton"
+        ),
+
+      browseButton:
+        document.getElementById(
+          "browseButton"
+        ),
+
+      notificationButton:
+        document.getElementById(
+          "notificationButton"
+        ),
+
+      notificationBadge:
+        document.getElementById(
+          "notificationBadge"
+        ),
+
+      profileButton:
+        document.getElementById(
+          "profileButton"
+        ),
+
+      installBanner:
+        document.getElementById(
+          "installBanner"
+        ),
+
+      installButton:
+        document.getElementById(
+          "installButton"
+        ),
+
+      installDismiss:
+        document.getElementById(
+          "installDismiss"
+        ),
+
+      toast:
+        document.getElementById(
+          "toast"
+        ),
+
+      navHome:
+        document.getElementById(
+          "navHome"
+        ),
+
+      navShops:
+        document.getElementById(
+          "navShops"
+        ),
+
+      navOrders:
+        document.getElementById(
+          "navOrders"
+        ),
+
+      navProfile:
+        document.getElementById(
+          "navProfile"
+        )
+
+    };
+
+
+    /*
+     * ---------------------------------------------------------
+     * HELPERS
+     * ---------------------------------------------------------
+     */
+
+    function text(
+      value,
+      fallback = ""
+    ) {
+
+      if (
+        value === null ||
+        value === undefined
+      ) {
+
+        return fallback;
+
+      }
+
+      const result =
+        String(
+          value
+        ).trim();
+
+      return result ||
+        fallback;
+
+    }
+
+
+    function number(
+      value,
+      fallback = 0
+    ) {
+
+      const result =
+        Number(
+          value
+        );
+
+      return Number.isFinite(
+        result
+      )
+        ? result
+        : fallback;
+
+    }
+
+
+    function escapeHtml(
+      value
+    ) {
+
+      return text(
+        value
+      )
+        .replaceAll(
+          "&",
+          "&amp;"
+        )
+        .replaceAll(
+          "<",
+          "&lt;"
+        )
+        .replaceAll(
+          ">",
+          "&gt;"
+        )
+        .replaceAll(
+          '"',
+          "&quot;"
+        )
+        .replaceAll(
+          "'",
+          "&#039;"
+        );
+
+    }
+
+
+    function getShopId(
+      shop
+    ) {
+
+      return text(
+        shop?.id ||
+        shop?.shopId ||
+        shop?.storeId
+      );
+
+    }
+
+
+    function getShopName(
+      shop
+    ) {
+
+      return text(
+        shop?.name ||
+        shop?.shopName ||
+        shop?.storeName,
+        "SaveBite Shop"
+      );
+
+    }
+
+
+    function getShopImage(
+      shop
+    ) {
+
+      return text(
+        shop?.imageUrl ||
+        shop?.logoUrl ||
+        shop?.coverImage ||
+        shop?.bannerUrl ||
+        shop?.images?.[0]
+      );
+
+    }
+
+
+    function getShopRating(
+      shop
+    ) {
+
+      const rating =
+        number(
+          shop?.rating ||
+          shop?.averageRating,
+          0
+        );
+
+      return Math.max(
+        0,
+        Math.min(
+          5,
+          rating
+        )
+      );
+
+    }
+
+
+    function getShopDistance(
+      shop
+    ) {
+
+      const distance =
+        number(
+          shop?.distanceKm ??
+          shop?.distance,
+          NaN
+        );
+
+      if (
+        !Number.isFinite(
+          distance
+        )
+      ) {
+
+        return "";
+
+      }
+
+      if (
+        distance < 1
+      ) {
+
+        return `${Math.max(
+          1,
+          Math.round(
+            distance * 1000
+          )
+        )} m`;
+
+      }
+
+      return `${distance.toFixed(
+        distance < 10
+          ? 1
+          : 0
+      )} km`;
+
+    }
+
+
+    function getSurplusCount(
+      shop
+    ) {
+
+      return Math.max(
+        0,
+        Math.floor(
+          number(
+            shop?.surplusCount ??
+            shop?.availableSurplusCount ??
+            shop?.availableProducts,
+            0
+          )
+        )
+      );
+
+    }
+
+
+    function getCategories(
+      shop
+    ) {
+
+      const result = [];
+
+      const values = [
+
+        shop?.category,
+
+        shop?.categoryName,
+
+        shop?.businessCategory,
+
+        ...(Array.isArray(
+          shop?.categories
+        )
+          ? shop.categories
+          : [])
+
+      ];
+
+
+      values.forEach(
+        value => {
+
+          if (
+            typeof value ===
+            "string"
+          ) {
+
+            const item =
+              value.trim();
+
+            if (
+              item &&
+              !result.includes(
+                item
+              )
+            ) {
+
+              result.push(
+                item
+              );
+
+            }
+
+            return;
+
+          }
+
+
+          if (
+            value &&
+            typeof value ===
+            "object"
+          ) {
+
+            const item =
+              text(
+                value.name ||
+                value.title ||
+                value.label
+              );
+
+            if (
+              item &&
+              !result.includes(
+                item
+              )
+            ) {
+
+              result.push(
+                item
+              );
+
+            }
+
+          }
+
+        }
+      );
+
+      return result;
+
+    }
+
+
+    function hasSurplus(
+      shop
+    ) {
+
+      if (
+        typeof shop?.hasSurplus ===
+        "boolean"
+      ) {
+
+        return shop.hasSurplus;
+
+      }
+
+      return getSurplusCount(
+        shop
+      ) > 0;
+
+    }
+
+
+    function isOpen(
+      shop
+    ) {
+
+      if (
+        typeof shop?.isOpen ===
+        "boolean"
+      ) {
+
+        return shop.isOpen;
+
+      }
+
+      if (
+        typeof shop?.open ===
+        "boolean"
+      ) {
+
+        return shop.open;
+
+      }
+
+      const status =
+        text(
+          shop?.status
+        ).toLowerCase();
+
+      if (
+        status ===
+          "closed" ||
+        status ===
+          "inactive" ||
+        status ===
+          "suspended"
+      ) {
+
+        return false;
+
+      }
+
+      return true;
+
+    }
+
+
+    /*
+     * ---------------------------------------------------------
+     * TOAST
+     * ---------------------------------------------------------
+     */
+
+    function showToast(
+      message
+    ) {
+
+      if (
+        !dom.toast
+      ) {
+
+        return;
+
+      }
+
+      dom.toast.textContent =
+        text(
+          message
+        );
+
+      dom.toast.classList.add(
+        "is-visible"
+      );
+
+
+      clearTimeout(
+        state.toastTimer
+      );
+
+
+      state.toastTimer =
+        setTimeout(
+          () => {
+
+            dom.toast.classList.remove(
+              "is-visible"
+            );
+
+          },
+          2600
+        );
+
+    }
+
+
+    /*
+     * ---------------------------------------------------------
+     * ROUTING
+     * ---------------------------------------------------------
+     */
+
+    function navigate(
+      path
+    ) {
+
+      const cleanPath =
+        text(
+          path
+        );
+
+      if (
+        !cleanPath
+      ) {
+
+        return;
+
+      }
+
+      window.location.href =
+        cleanPath;
+
+    }
+
+
+    /*
+     * ---------------------------------------------------------
+     * SHOP CARD
+     * ---------------------------------------------------------
+     */
+
+    function renderShopCard(
+      shop
+    ) {
+
+      const id =
+        getShopId(
+          shop
+        );
+
+      const name =
+        getShopName(
+          shop
+        );
+
+      const image =
+        getShopImage(
+          shop
+        );
+
+      const rating =
+        getShopRating(
+          shop
+        );
+
+      const distance =
+        getShopDistance(
+          shop
+        );
+
+      const surplus =
+        getSurplusCount(
+          shop
+        );
+
+      const open =
+        isOpen(
+          shop
+        );
+
+      const verified =
+        shop?.verified ===
+          true ||
+        shop?.isVerified ===
+          true;
+
+      const description =
+        text(
+          shop?.description,
+          "Discover surplus food and great deals from this local business."
+        );
+
+      const delivery =
+        shop?.deliveryAvailable ??
+        shop?.delivery?.available ??
+        false;
+
+
+      const imageHtml =
+        image
+          ? `
+            <img
+              src="${escapeHtml(image)}"
+              alt="${escapeHtml(name)}"
+              loading="lazy"
+              decoding="async"
+              referrerpolicy="no-referrer"
+              onerror="this.remove();this.parentElement.querySelector('.sb-shop-placeholder').hidden=false;"
+            >
+          `
+          : "";
+
+
+      return `
+        <article
+          class="sb-shop-card"
+          data-shop-id="${escapeHtml(id)}"
+        >
+
+          <div class="sb-shop-image">
+
+            ${imageHtml}
+
+            <div
+              class="sb-shop-placeholder"
+              ${image ? "hidden" : ""}
+              aria-hidden="true"
+            >
+              SB
+            </div>
+
+            <span
+              class="sb-shop-status ${open ? "" : "closed"}"
+            >
+              ${open ? "OPEN NOW" : "CLOSED"}
+            </span>
+
+            ${
+              surplus > 0
+                ? `
+                  <span class="sb-shop-discount">
+                    SURPLUS DEAL
+                  </span>
+                `
+                : ""
+            }
+
+          </div>
+
+
+          <div class="sb-shop-body">
+
+            <div class="sb-shop-title-row">
+
+              <div>
+
+                <h3 class="sb-shop-name">
+                  ${escapeHtml(name)}
+                </h3>
+
+                ${
+                  verified
+                    ? `
+                      <div class="sb-verified">
+                        ✓ Verified business
+                      </div>
+                    `
+                    : ""
+                }
+
+              </div>
+
+
+              ${
+                rating > 0
+                  ? `
+                    <span class="sb-rating">
+                      ★ ${rating.toFixed(1)}
+                    </span>
+                  `
+                  : ""
+              }
+
+            </div>
+
+
+            <p class="sb-shop-description">
+              ${escapeHtml(description)}
+            </p>
+
+
+            <div class="sb-shop-meta">
+
+              ${
+                distance
+                  ? `
+                    <span>
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        aria-hidden="true"
+                      >
+                        <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/>
+                        <circle cx="12" cy="10" r="2.5"/>
+                      </svg>
+                      ${escapeHtml(distance)}
+                    </span>
+                  `
+                  : ""
+              }
+
+
+              ${
+                delivery
+                  ? `
+                    <span>
+                      ✓ Delivery
+                    </span>
+                  `
+                  : `
+                    <span>
+                      Pickup
+                    </span>
+                  `
+              }
+
+
+              ${
+                getCategories(shop).length
+                  ? `
+                    <span>
+                      ${escapeHtml(
+                        getCategories(shop)
+                          .slice(0,1)
+                          .join("")
+                      )}
+                    </span>
+                  `
+                  : ""
+              }
+
+            </div>
+
+
+            <div class="sb-shop-footer">
+
+              <span class="sb-surplus">
+                ${
+                  surplus > 0
+                    ? `${surplus} deal${surplus === 1 ? "" : "s"} available`
+                    : "Check today's offers"
+                }
+              </span>
+
+              <button
+                type="button"
+                class="sb-open-btn"
+                data-open-shop="${escapeHtml(id)}"
+              >
+                View deals
+              </button>
+
+            </div>
+
+          </div>
+
+        </article>
+      `;
+
+    }
+
+
+    /*
+     * ---------------------------------------------------------
+     * EMPTY / ERROR STATE
+     * ---------------------------------------------------------
+     */
+
+    function renderEmptyState(
+      title,
+      message,
+      buttonText = "Try again"
+    ) {
+
+      dom.shopGrid.innerHTML =
+        `
+          <div
+            class="sb-state"
+            style="grid-column:1/-1"
+          >
+
+            <div class="sb-state-icon">
+
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                aria-hidden="true"
+              >
+                <circle cx="11" cy="11" r="7"/>
+                <path d="m20 20-4-4"/>
+              </svg>
+
+            </div>
+
+            <div class="sb-state-title">
+              ${escapeHtml(title)}
+            </div>
+
+            <div class="sb-state-text">
+              ${escapeHtml(message)}
+            </div>
+
+            <button
+              type="button"
+              class="sb-state-action"
+              id="stateRetry"
+            >
+              ${escapeHtml(buttonText)}
+            </button>
+
+          </div>
+        `;
+
+
+      const retry =
+        document.getElementById(
+          "stateRetry"
+        );
+
+      if (
+        retry
+      ) {
+
+        retry.addEventListener(
+          "click",
+          () => loadShops()
+        );
+
+      }
+
+    }
+
+
+    /*
+     * ---------------------------------------------------------
+     * FILTERING
+     * ---------------------------------------------------------
+     */
+
+    function filterShops(
+      shops
+    ) {
+
+      const query =
+        state.search
+          .trim()
+          .toLowerCase();
+
+      const category =
+        state.category
+          .trim()
+          .toLowerCase();
+
+
+      return shops.filter(
+        shop => {
+
+          if (
+            !hasSurplus(
+              shop
+            )
+          ) {
+
+            return false;
+
+          }
+
+
+          if (
+            category
+          ) {
+
+            const categories =
+              getCategories(
+                shop
+              ).map(
+                item =>
+                  item
+                    .toLowerCase()
+              );
+
+            if (
+              !categories.some(
+                item =>
+                  item ===
+                    category ||
+                  item.includes(
+                    category
+                  ) ||
+                  category.includes(
+                    item
+                  )
+              )
+            ) {
+
+              return false;
+
+            }
+
+          }
+
+
+          if (
+            query
+          ) {
+
+            const haystack =
+              [
+
+                getShopName(
+                  shop
+                ),
+
+                text(
+                  shop?.description
+                ),
+
+                ...getCategories(
+                  shop
+                ),
+
+                text(
+                  shop?.area
+                ),
+
+                text(
+                  shop?.city
+                ),
+
+                text(
+                  shop?.address
+                )
+
+              ]
+                .join(" ")
+                .toLowerCase();
+
+
+            if (
+              !haystack.includes(
+                query
+              )
+            ) {
+
+              return false;
+
+            }
+
+          }
+
+
+          return true;
+
+        }
+      );
+
+    }
+
+
+    /*
+     * ---------------------------------------------------------
+     * SORTING
+     * ---------------------------------------------------------
+     */
+
+    function sortShops(
+      shops
+    ) {
+
+      return [
+        ...shops
+      ].sort(
+        (
+          a,
+          b
+        ) => {
+
+          const aDistance =
+            number(
+              a?.distanceKm ??
+              a?.distance,
+              Infinity
+            );
+
+          const bDistance =
+            number(
+              b?.distanceKm ??
+              b?.distance,
+              Infinity
+            );
+
+
+          const aRating =
+            getShopRating(
+              a
+            );
+
+          const bRating =
+            getShopRating(
+              b
+            );
+
+
+          const aSurplus =
+            getSurplusCount(
+              a
+            );
+
+          const bSurplus =
+            getSurplusCount(
+              b
+            );
+
+
+          if (
+            hasSurplus(a) !==
+            hasSurplus(b)
+          ) {
+
+            return hasSurplus(b) -
+              hasSurplus(a);
+
+          }
+
+
+          if (
+            aDistance !==
+            bDistance
+          ) {
+
+            return (
+              aDistance -
+              bDistance
+            );
+
+          }
+
+
+          if (
+            aRating !==
+            bRating
+          ) {
+
+            return (
+              bRating -
+              aRating
+            );
+
+          }
+
+
+          return (
+            bSurplus -
+            aSurplus
+          );
+
+        }
+      );
+
+    }
+
+
+    /*
+     * ---------------------------------------------------------
+     * RENDER
+     * ---------------------------------------------------------
+     */
+
+    function renderShops(
+      shops
+    ) {
+
+      const filtered =
+        sortShops(
+          filterShops(
+            shops
+          )
+        );
+
+
+      if (
+        filtered.length ===
+        0
+      ) {
+
+        const query =
+          state.search ||
+          state.category;
+
+
+        renderEmptyState(
+          query
+            ? "No matching deals"
+            : "No surplus deals nearby",
+          query
+            ? "Try another search or choose a different category."
+            : "We couldn't find active surplus offers right now. Check again soon.",
+          "Refresh"
+        );
+
+        return;
+
+      }
+
+
+      dom.shopGrid.innerHTML =
+        filtered
+          .map(
+            renderShopCard
+          )
+          .join("");
+
+
+      dom.shopGrid
+        .querySelectorAll(
+          "[data-open-shop]"
+        )
+        .forEach(
+          button => {
+
+            button.addEventListener(
+              "click",
+              () => {
+
+                const id =
+                  button.dataset.openShop;
+
+                if (
+                  !id
+                ) {
+
+                  return;
+
+                }
+
+                navigate(
+                  `./shop.html?shopId=${encodeURIComponent(id)}`
+                );
+
+              }
+            );
+
+          }
+        );
+
+    }
+
+
+    /*
+     * ---------------------------------------------------------
+     * SHOP LOADING
+     * ---------------------------------------------------------
+     */
+
+    async function loadShops() {
+
+      if (
+        state.loading
+      ) {
+
+        return;
+
+      }
+
+
+      state.loading =
+        true;
+
+
+      dom.shopGrid.innerHTML =
+        `
+          <div class="sb-loading"></div>
+          <div class="sb-loading"></div>
+        `;
+
+
+      try {
+
+        /*
+         * Preferred path:
+         * use the already-created shops discovery engine.
+         */
+
+        let loaded =
+          [];
+
+
+        if (
+          typeof window.loadShops ===
+          "function"
+        ) {
+
+          const result =
+            await window.loadShops();
+
+          loaded =
+            Array.isArray(
+              result
+            )
+              ? result
+              : Array.isArray(
+                  result?.shops
+                )
+                ? result.shops
+                : [];
+
+        }
+
+
+        /*
+         * Some versions expose initialize/load
+         * through a different global name.
+         */
+
+        if (
+          !loaded.length &&
+          typeof window.getRecommendedShops ===
+          "function"
+        ) {
+
+          loaded =
+            window.getRecommendedShops({
+              limit: 50,
+              surplusOnly: true
+            }) || [];
+
+        }
+
+
+        if (
+          !loaded.length &&
+          typeof window.getShops ===
+          "function"
+        ) {
+
+          loaded =
+            window.getShops() || [];
+
+        }
+
+
+        state.shops =
+          Array.isArray(
+            loaded
+          )
+            ? loaded
+            : [];
+
+
+        /*
+         * Do not manufacture fake shops.
+         *
+         * If Firebase/backend data is not available,
+         * the customer should see a truthful empty state.
+         */
+
+        if (
+          state.shops.length
+        ) {
+
+          renderShops(
+            state.shops
+          );
+
+        } else {
+
+          renderEmptyState(
+            "No deals available yet",
+            "SaveBite will show real offers here when participating businesses publish surplus stock.",
+            "Refresh"
+          );
+
+        }
+
+      } catch (
+        error
+      ) {
+
+        console.error(
+          "SaveBite shop loading error:",
+          error
+        );
+
+
+        renderEmptyState(
+          "Couldn't load nearby deals",
+          "Please check your connection and try again.",
+          "Try again"
+        );
+
+      } finally {
+
+        state.loading =
+          false;
+
+      }
+
+    }
+
+
+    /*
+     * ---------------------------------------------------------
+     * LOCATION
+     * ---------------------------------------------------------
+     */
+
+    async function requestLocation() {
+
+      if (
+        !navigator.geolocation
+      ) {
+
+        state.locationLabel =
+          "Location is not supported";
+
+        dom.locationValue.textContent =
+          state.locationLabel;
+
+        showToast(
+          "Your browser does not support location services."
+        );
+
+        return null;
+
+      }
+
+
+      dom.locationValue.textContent =
+        "Requesting location…";
+
+
+      try {
+
+        let position =
+          null;
+
+
+        if (
+          typeof window.getCurrentPosition ===
+          "function"
+        ) {
+
+          position =
+            await window.getCurrentPosition();
+
+        } else {
+
+          position =
+            await new Promise(
+              (
+                resolve,
+                reject
+              ) => {
+
+                navigator.geolocation.getCurrentPosition(
+                  resolve,
+                  reject,
+                  {
+                    enableHighAccuracy:
+                      true,
+                    timeout:
+                      12000,
+                    maximumAge:
+                      120000
+                  }
+                );
+
+              }
+            );
+
+        }
+
+
+        const coords =
+          position?.coords ||
+          position;
+
+
+        const latitude =
+          number(
+            coords?.latitude,
+            NaN
+          );
+
+        const longitude =
+          number(
+            coords?.longitude,
+            NaN
+          );
+
+
+        if (
+          !Number.isFinite(
+            latitude
+          ) ||
+          !Number.isFinite(
+            longitude
+          )
+        ) {
+
+          throw new Error(
+            "Invalid location coordinates."
+          );
+
+        }
+
+
+        state.location =
+          {
+            latitude,
+            longitude
+          };
+
+
+        state.locationLabel =
+          "Current location";
+
+
+        dom.locationValue.textContent =
+          state.locationLabel;
+
+
+        /*
+         * Feed the user's location into the shop
+         * discovery layer when its API is available.
+         */
+
+        if (
+          typeof window.setUserLocation ===
+          "function"
+        ) {
+
+          try {
+
+            window.setUserLocation(
+              latitude,
+              longitude
+            );
+
+          } catch (
+            error
+          ) {
+
+            console.warn(
+              "Unable to update shop location state.",
+              error
+            );
+
+          }
+
+        }
+
+
+        if (
+          typeof window.setLocation ===
+          "function"
+        ) {
+
+          try {
+
+            window.setLocation(
+              state.location
+            );
+
+          } catch (
+            error
+          ) {
+
+            console.warn(
+              "Location API rejected location.",
+              error
+            );
+
+          }
+
+        }
+
+
+        /*
+         * Re-load so distance-based ordering can update.
+         */
+
+        await loadShops();
+
+
+        showToast(
+          "Nearby deals updated."
+        );
+
+
+        return state.location;
+
+      } catch (
+        error
+      ) {
+
+        console.warn(
+          "Location request failed:",
+          error
+        );
+
+
+        state.locationLabel =
+          "Choose your location";
+
+        dom.locationValue.textContent =
+          state.locationLabel;
+
+
+        showToast(
+          "Location permission was not available."
+        );
+
+
+        return null;
+
+      }
+
+    }
+
+
+    /*
+     * ---------------------------------------------------------
+     * SEARCH
+     * ---------------------------------------------------------
+     */
+
+    function handleSearch() {
+
+      state.search =
+        text(
+          dom.search.value
+        );
+
+
+      dom.searchClear.classList.toggle(
+        "is-visible",
+        Boolean(
+          state.search
+        )
+      );
+
+
+      renderShops(
+        state.shops
+      );
+
+    }
+
+
+    /*
+     * ---------------------------------------------------------
+     * CATEGORY
+     * ---------------------------------------------------------
+     */
+
+    function selectCategory(
+      button
+    ) {
+
+      document
+        .querySelectorAll(
+          ".sb-category"
+        )
+        .forEach(
+          item => {
+
+            item.classList.remove(
+              "is-active"
+            );
+
+          }
+        );
+
+
+      button.classList.add(
+        "is-active"
+      );
+
+
+      state.category =
+        text(
+          button.dataset.category
+        );
+
+
+      renderShops(
+        state.shops
+      );
+
+    }
+
+
+    /*
+     * ---------------------------------------------------------
+     * NOTIFICATIONS
+     * ---------------------------------------------------------
+     */
+
+    function updateNotificationBadge() {
+
+      let count =
+        0;
+
+
+      try {
+
+        const stored =
+          localStorage.getItem(
+            "savebite_unread_notifications"
+          );
+
+        if (
+          stored
+        ) {
+
+          count =
+            Math.max(
+              0,
+              Math.floor(
+                number(
+                  stored,
+                  0
+                )
+              )
+            );
+
+        }
+
+      } catch (
+        error
+      ) {
+
+        count =
+          0;
+
+      }
+
+
+      if (
+        count > 0
+      ) {
+
+        dom.notificationBadge.textContent =
+          count > 99
+            ? "99+"
+            : String(
+                count
+              );
+
+        dom.notificationBadge.style.display =
+          "grid";
+
+      } else {
+
+        dom.notificationBadge.style.display =
+          "none";
+
+      }
+
+    }
+
+
+    /*
+     * ---------------------------------------------------------
+     * AUTH / PROFILE NAVIGATION
+     * ---------------------------------------------------------
+     */
+
+    function openProfile() {
+
+      /*
+       * Customer account page will be added in the
+       * customer flow. Until then, route through login
+       * only when no customer page exists.
+       */
+
+      navigate(
+        "./profile.html"
+      );
+
+    }
+
+
+    function openOrders() {
+
+      navigate(
+        "./orders.html"
+      );
+
+    }
+
+
+    function openNotifications() {
+
+      navigate(
+        "./notifications.html"
+      );
+
+    }
+
+
+    /*
+     * ---------------------------------------------------------
+     * PWA
+     * ---------------------------------------------------------
+     */
+
+    function setupPwa() {
+
+      window.addEventListener(
+        "beforeinstallprompt",
+        event => {
+
+          event.preventDefault();
+
+          state.deferredInstallPrompt =
+            event;
+
+          if (
+            !state.installDismissed
+          ) {
+
+            dom.installBanner.classList.add(
+              "is-visible"
+            );
+
+          }
+
+        }
+      );
+
+
+      window.addEventListener(
+        "appinstalled",
+        () => {
+
+          state.deferredInstallPrompt =
+            null;
+
+          dom.installBanner.classList.remove(
+            "is-visible"
+          );
+
+          showToast(
+            "SaveBite installed successfully."
+          );
+
+        }
+      );
+
+
+      dom.installButton.addEventListener(
+        "click",
+        async () => {
+
+          if (
+            !state.deferredInstallPrompt
+          ) {
+
+            showToast(
+              "Use your browser's Add to Home Screen option to install SaveBite."
+            );
+
+            return;
+
+          }
+
+
+          try {
+
+            const promptEvent =
+              state.deferredInstallPrompt;
+
+
+            state.deferredInstallPrompt =
+              null;
+
+
+            dom.installBanner.classList.remove(
+              "is-visible"
+            );
+
+
+            await promptEvent.prompt();
+
+            await promptEvent.userChoice;
+
+          } catch (
+            error
+          ) {
+
+            console.warn(
+              "PWA install prompt failed:",
+              error
+            );
+
+          }
+
+        }
+      );
+
+
+      dom.installDismiss.addEventListener(
+        "click",
+        () => {
+
+          state.installDismissed =
+            true;
+
+          dom.installBanner.classList.remove(
+            "is-visible"
+          );
+
+        }
+      );
+
+    }
+
+
+    /*
+     * ---------------------------------------------------------
+     * SERVICE WORKER
+     * ---------------------------------------------------------
+     */
+
+    function registerServiceWorker() {
+
+      if (
+        !("serviceWorker" in navigator)
+      ) {
+
+        return;
+
+      }
+
+
+      window.addEventListener(
+        "load",
+        () => {
+
+          navigator.serviceWorker
+            .register(
+              "../service-worker.js",
+              {
+                scope: "../"
+              }
+            )
+            .catch(
+              error => {
+
+                console.warn(
+                  "SaveBite service worker registration failed:",
+                  error
+                );
+
+              }
+            );
+
+        }
+      );
+
+    }
+
+
+    /*
+     * ---------------------------------------------------------
+     * EVENT LISTENERS
+     * ---------------------------------------------------------
+     */
+
+    function bindEvents() {
+
+      dom.locationButton.addEventListener(
+        "click",
+        requestLocation
+      );
+
+
+      dom.nearbyButton.addEventListener(
+        "click",
+        async () => {
+
+          await requestLocation();
+
+          document
+            .getElementById(
+              "shopsSection"
+            )
+            ?.scrollIntoView({
+              behavior:
+                "smooth",
+              block:
+                "start"
+            });
+
+        }
+      );
+
+
+      dom.browseButton.addEventListener(
+        "click",
+        () => {
+
+          document
+            .getElementById(
+              "shopsSection"
+            )
+            ?.scrollIntoView({
+              behavior:
+                "smooth",
+              block:
+                "start"
+            });
+
+        }
+      );
+
+
+      dom.refreshButton.addEventListener(
+        "click",
+        loadShops
+      );
+
+
+      dom.search.addEventListener(
+        "input",
+        handleSearch
+      );
+
+
+      dom.searchClear.addEventListener(
+        "click",
+        () => {
+
+          dom.search.value =
+            "";
+
+          state.search =
+            "";
+
+          dom.searchClear.classList.remove(
+            "is-visible"
+          );
+
+          renderShops(
+            state.shops
+          );
+
+          dom.search.focus();
+
+        }
+      );
+
+
+      dom.categoryList
+        .querySelectorAll(
+          ".sb-category"
+        )
+        .forEach(
+          button => {
+
+            button.addEventListener(
+              "click",
+              () =>
+                selectCategory(
+                  button
+                )
+            );
+
+          }
+        );
+
+
+      dom.notificationButton.addEventListener(
+        "click",
+        openNotifications
+      );
+
+
+      dom.profileButton.addEventListener(
+        "click",
+        openProfile
+      );
+
+
+      dom.navHome.addEventListener(
+        "click",
+        () => {
+
+          window.scrollTo({
+            top: 0,
+            behavior:
+              "smooth"
+          });
+
+        }
+      );
+
+
+      dom.navShops.addEventListener(
+        "click",
+        () => {
+
+          document
+            .getElementById(
+              "shopsSection"
+            )
+            ?.scrollIntoView({
+              behavior:
+                "smooth"
+            });
+
+        }
+      );
+
+
+      dom.navOrders.addEventListener(
+        "click",
+        openOrders
+      );
+
+
+      dom.navProfile.addEventListener(
+        "click",
+        openProfile
+      );
+
+
+      window.addEventListener(
+        "savebite:shops-updated",
+        event => {
+
+          const incoming =
+            event?.detail?.shops;
+
+
+          if (
+            Array.isArray(
+              incoming
+            )
+          ) {
+
+            state.shops =
+              incoming;
+
+            renderShops(
+              state.shops
+            );
+
+          }
+
+        }
+      );
+
+
+      window.addEventListener(
+        "savebite:location-updated",
+        event => {
+
+          const location =
+            event?.detail?.location ||
+            event?.detail;
+
+
+          if (
+            location?.latitude !==
+              undefined &&
+            location?.longitude !==
+              undefined
+          ) {
+
+            state.location =
+              {
+                latitude:
+                  number(
+                    location.latitude
+                  ),
+                longitude:
+                  number(
+                    location.longitude
+                  )
+              };
+
+            dom.locationValue.textContent =
+              "Current location";
+
+          }
+
+        }
+      );
+
+
+      window.addEventListener(
+        "online",
+        () => {
+
+          showToast(
+            "You're back online."
+          );
+
+          loadShops();
+
+        }
+      );
+
+
+      window.addEventListener(
+        "offline",
+        () => {
+
+          showToast(
+            "You're offline. Showing available cached data."
+          );
+
+        }
+      );
+
+    }
+
+
+    /*
+     * ---------------------------------------------------------
+     * INITIALIZE DISCOVERY ENGINES
+     * ---------------------------------------------------------
+     */
+
+    async function initializeEngines() {
+
+      /*
+       * These scripts are already part of the SaveBite
+       * architecture. Failure here must not create fake data.
+       */
+
+      try {
+
+        await loadScript(
+          "../js/shops.js"
+        );
+
+      } catch (
+        error
+      ) {
+
+        console.warn(
+          "shops.js could not be loaded:",
+          error
+        );
+
+      }
+
+
+      try {
+
+        await loadScript(
+          "../js/products.js"
+        );
+
+      } catch (
+        error
+      ) {
+
+        console.warn(
+          "products.js could not be loaded:",
+          error
+        );
+
+      }
+
+
+      try {
+
+        await loadScript(
+          "../js/location.js"
+        );
+
+      } catch (
+        error
+      ) {
+
+        console.warn(
+          "location.js could not be loaded:",
+          error
+        );
+
+      }
+
+
+      /*
+       * Initialize the discovery engine if the public
+       * initializer exists.
+       */
+
+      if (
+        typeof window.initializeShops ===
+        "function"
+      ) {
+
+        try {
+
+          await window.initializeShops();
+
+        } catch (
+          error
+        ) {
+
+          console.warn(
+            "Shop engine initialization failed:",
+            error
+          );
+
+        }
+
+      }
+
+
+      if (
+        typeof window.initializeProducts ===
+        "function"
+      ) {
+
+        try {
+
+          window.initializeProducts();
+
+        } catch (
+          error
+        ) {
+
+          console.warn(
+            "Product engine initialization failed:",
+            error
+          );
+
+        }
+
+      }
+
+    }
+
+
+    /*
+     * ---------------------------------------------------------
+     * INITIALIZE PAGE
+     * ---------------------------------------------------------
+     */
+
+    async function initializePage() {
+
+      if (
+        state.initialized
+      ) {
+
+        return;
+
+      }
+
+
+      state.initialized =
+        true;
+
+
+      bindEvents();
+
+      setupPwa();
+
+      registerServiceWorker();
+
+      updateNotificationBadge();
+
+
+      /*
+       * Do not force location permission on page load.
+       * The user explicitly chooses "Find nearby deals".
+       */
+
+      dom.locationValue.textContent =
+        "Tap to use your current location";
+
+
+      await initializeEngines();
+
+      await loadShops();
+
+    }
+
+
+    /*
+     * Start.
+     */
+
+    initializePage()
+      .catch(
+        error => {
+
+          console.error(
+            "SaveBite customer home initialization failed:",
+            error
+          );
+
+          renderEmptyState(
+            "SaveBite couldn't start",
+            "Please refresh the page and try again.",
+            "Refresh"
+          );
+
+        }
+      );
+
+  </script>
+
+</body>
+  </html>
